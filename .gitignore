@@ -1,0 +1,7 @@
+appsettings*
+server.csproj
+server.http
+obj/
+bin/
+Properties/
+Migrations/
