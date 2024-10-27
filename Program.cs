@@ -1,5 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using server.Data;
+using server.Interfaces;
+using server.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,7 +12,7 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<ApplicationDBContext>(options => {
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
 });
-
+builder.Services.AddScoped<IStockRepository,StockRepository>();
 builder.Services.AddControllers();
 
 var app = builder.Build();
