@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using server.Dtos.Comment;
+using server.Helpers;
 using server.Interfaces;
 using server.Mappers;
 
@@ -22,9 +23,9 @@ namespace server.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAll(){
+        public async Task<IActionResult> GetAll([FromQuery] CommentQuery query){
             if (!ModelState.IsValid) return BadRequest(ModelState);
-            var comments = await _commentRepo.GetAllAsync();
+            var comments = await _commentRepo.GetAllAsync(query);
             var commentDtos = comments.Select(c => c.ToCommentDto());
             return Ok(commentDtos);
         }

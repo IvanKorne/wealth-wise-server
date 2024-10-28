@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using server.Data;
 using server.Dtos.Comment;
+using server.Helpers;
 using server.Interfaces;
 using server.Models;
 
@@ -36,9 +37,19 @@ namespace server.Repositories
             return commentModel;
         }
 
-        public async Task<List<Comment>> GetAllAsync()
+        public async Task<List<Comment>> GetAllAsync(CommentQuery query)
         {
-            return await _context.Comments.ToListAsync();
+            var comments = _context.Comments.AsQueryable();
+
+            if (!string.IsNullOrWhiteSpace(query.Symbol))
+            {
+                comments = comments.Where(s => s.Stock != null && s.Stock.Symbol == query.Symbol);
+            };
+            if (query.IsDescending == true)
+            {
+                comments = comments.OrderByDescending(c => c.CreatedOn);
+            }
+            return await comments.ToListAsync();
         }
         public async Task<Comment?> GetByIdAsync(int id)
         {

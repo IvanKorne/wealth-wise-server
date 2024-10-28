@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using server.Data;
 using server.Dtos.Stock;
+using server.Helpers;
 using server.Interfaces;
 using server.Mappers;
 
@@ -25,9 +26,9 @@ namespace server.Controllers
 
         [HttpGet]
 
-        public async Task<IActionResult> GetAll(){
+        public async Task<IActionResult> GetAll([FromQuery] StockQuery query){
             if (!ModelState.IsValid) return BadRequest(ModelState);
-            var stocks = await _stockRepo.GetAllAsync();
+            var stocks = await _stockRepo.GetAllAsync(query);
             var stockDtos = stocks.Select(s => s.ToStockDto());
             return Ok(stockDtos);
         }
