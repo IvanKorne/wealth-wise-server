@@ -80,6 +80,11 @@ namespace server.Repositories
             return await stocks.Skip(skipNumber).Take(query.PageSize).ToListAsync();
         }
 
+        public async Task<Stock?> GetBySymbolAsync(string symbol)
+        {
+            return await _context.Stocks.FirstOrDefaultAsync(i => i.Symbol == symbol);
+        }
+
         public async Task<Stock?> GetStockByIdAsync(int id)
         {
             return await _context.Stocks.Include(c => c.Comments).FirstOrDefaultAsync(i => i.Id == id);

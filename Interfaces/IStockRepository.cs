@@ -12,6 +12,7 @@ namespace server.Interfaces
     {
         Task<List<Stock>> GetAllAsync(StockQuery query);
         Task<Stock?> GetStockByIdAsync(int id);
+        Task<Stock?> GetBySymbolAsync(string symbol);
         Task<Stock> CreateAsync(Stock stockModel);
         Task<Stock?> UpdateAsync(int id, UpdateStockRequestDto updateDto);
         Task<Stock?> DeleteAsync(int id);
