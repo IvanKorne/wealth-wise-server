@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using server.Data;
@@ -18,6 +19,7 @@ namespace server.Controllers
     {
         private readonly ApplicationDBContext _context;
         private readonly IStockRepository _stockRepo;
+
         public StockController(ApplicationDBContext context, IStockRepository stockRepo)
         {
             _context = context;
@@ -25,6 +27,7 @@ namespace server.Controllers
         }
 
         [HttpGet]
+        [Authorize]
 
         public async Task<IActionResult> GetAll([FromQuery] StockQuery query){
             if (!ModelState.IsValid) return BadRequest(ModelState);

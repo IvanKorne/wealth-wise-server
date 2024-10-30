@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using server.Dtos.Comment;
 using server.Helpers;
@@ -16,6 +17,7 @@ namespace server.Controllers
     {
         private readonly ICommentRepository _commentRepo;
         private readonly IStockRepository _stockRepo;
+
         public CommentController(ICommentRepository commentRepo, IStockRepository stockRepo)
         {
             _commentRepo = commentRepo;
@@ -23,6 +25,7 @@ namespace server.Controllers
         }
 
         [HttpGet]
+         [Authorize]
         public async Task<IActionResult> GetAll([FromQuery] CommentQuery query){
             if (!ModelState.IsValid) return BadRequest(ModelState);
             var comments = await _commentRepo.GetAllAsync(query);
