@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using server.Service;
 using server.Data;
 using server.Interfaces;
 using server.Models;
@@ -87,6 +88,8 @@ builder.Services.AddScoped<IStockRepository,StockRepository>();
 builder.Services.AddScoped<ICommentRepository,CommentRepository>();
 builder.Services.AddScoped<ITokenService,TokenService>();
 builder.Services.AddScoped<IPortfolioRepository,PortfolioRepository>();
+builder.Services.AddScoped<IFMPService,FMPService>();
+builder.Services.AddHttpClient<IFMPService,FMPService>();
 builder.Services.AddControllers();
 
 
@@ -100,6 +103,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+app.UseCors(x => x.AllowAnyHeader().AllowAnyMethod().AllowCredentials().SetIsOriginAllowed(origin => true));
 
 app.UseAuthentication();
 app.UseAuthorization();
